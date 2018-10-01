@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Controle estoque - Listagem</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <ui:insert name="header">
+            <ui:include src="template/menu.xhtml"/>
+        </ui:insert>
+        <h:form>
+            <table id="tabelaUn" class="table table-striped" style="margin-top: 33px;">
+                <thead>
+                    <tr>
+                        <th scope="col">Excluir</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">UN</th>
+                        <th scope="col">Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:if test="#{produtoMB.all.size() == 0}">
+                        <tr>
+                            <td colspan="5">Sem informação</td>
+                        </tr>
+                    </c:if>
+                    <ui:repeat var="pr" value="#{produtoMB.all}">
+                        <tr>
+                            <td>
+                                <h:commandLink action="#{produtoMB.remove()}">                                    
+                                    <h:graphicImage value="/resources/img/trash.png"/>
+                                    <f:setPropertyActionListener value="#{pr}" target="#{produtoMB.produto}"/>                                    
+                                </h:commandLink>
+                            </td>
+                            <td>
+                                <h:commandLink action="#{produtoMB.buscarPorId()}">                                    
+                                    <f:setPropertyActionListener value="#{pr}" target="#{produtoMB.produto}"/>
+                                    <f:passThroughAttribute name="data-toggle" value="modal" />
+                                    <f:passThroughAttribute name="data-target" value="#cadastroPR" />
+                                    <h:graphicImage value="/resources/img/edit.png"/>                                                                                                        
+                                    <f:ajax render="form formModal" event="action"/>
+                                </h:commandLink>
+                            </td>
+                            <td>#{pr.descricaoProduto}</td>
+                            <td>#{pr.unidadeMedida.descricao}</td>
+                            <td>#{pr.quantidade}</td>
+                        </tr>
+                    </ui:repeat>   
+                </tbody>
+            </table>
+        </h:form>
+        <div class="modal fade" id="cadastroPR" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Alterar produto                        
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"/>                        
+                    </div>
+                    <h:form id="formModal">
+                        <div class="modal-body">                                
+                            <div class="form-group">
+                                <label for="txtDescricao">Produto</label>
+                                <h:inputText id="txtDescricao" value="#{produtoMB.produto.descricaoProduto}" class="form-control" disabled="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtUnidadeMedida">UN</label>
+                                <h:inputText id="txtUnidadeMedida" value="#{produtoMB.produto.unidadeMedida.descricao}" class="form-control" disabled="true"/>
+                            </div>       
+                            <div class="form-group">
+                                <label for="txtQuantidade">Quantidade</label>
+                                <h:inputText id="txtQuantidade" value="#{produtoMB.produto.quantidade}" class="form-control"/>
+                            </div>       
+                            <div class="form-group">
+                                <h:selectOneMenu id="ddlUnidadeMedida" class="form-control" value="#{produtoMB.produto.entrada}">
+                                    <f:selectItem itemLabel="Entrada" itemValue="1"/>
+                                    <f:selectItem itemLabel="Saída" itemValue="0"/>                                    
+                                </h:selectOneMenu>                                
+                            </div>       
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <h:commandButton id="btnSalvar" class="btn btn-primary" value="Salvar" action="#{produtoMB.salvar()}"/>                            
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>        
+    </h:body>
+</html>

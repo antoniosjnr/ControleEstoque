@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Controle estoque - Cadastro produtos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+    </h:head>
+    <h:body>
+        <ui:insert name="header">
+            <ui:include src="template/menu.xhtml"/>
+        </ui:insert>
+        <h:form id="form">
+            <div style="margin:40px 10px 10px 10px">
+                <h5>Cadastrar produto</h5>
+                <div class="form-group">
+                    <label for="txtDescricaoProduto">Produto</label>
+                    <h:inputText class="form-control" id="txtDescricaoProduto" value="#{produtoMB.produto.descricaoProduto}"/>
+                </div>
+                <div class="form-group">
+                    <label for="ddlUnidadeMedida">UnidadeMedida</label>
+                    <h:selectOneMenu id="ddlUnidadeMedida" class="form-control" value="#{produtoMB.idProduto}">
+                        <f:selectItem itemLabel="Selecione um item" itemValue="0"/>
+                        <f:selectItems value="#{unidadeMedidaMB.all}" var="un" itemLabel="#{un.descricao}" itemValue="#{un.id}"/>
+                    </h:selectOneMenu>
+                </div>
+                <div class="form-group">
+                    <h:commandButton class="btn btn-dark" value="Salvar" action="#{produtoMB.salvar()}" />
+                </div>
+                <div class="form-group">
+                    <h:commandLink>Listar produtos</h:commandLink>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>

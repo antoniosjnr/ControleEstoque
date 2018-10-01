@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Controle estoque</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>       
+        <h:outputStylesheet library="css/bootstrap" name="bootstrap.min.css"/>
+        <h:outputStylesheet library="css" name="geral.css"/>
+
+        <h:outputScript name="js/jquery.min.js"/>
+        <h:outputScript name="js/popper.min.js"/>
+        <h:outputScript name="js/bootstrap/bootstrap.min.js"/>
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">Controle estoque</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="ddCadastros" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cadastros</a>
+                        <div class="dropdown-menu" aria-labelledby="ddCadastros">
+                            <h:link class="dropdown-item" outcome="produtos">Produtos</h:link>
+                            <h:link class="dropdown-item" outcome="listagem_un">Unidade de medida</h:link>                                                    
+                        </div>
+                    </li>                                        
+                    <li class="nav-item">
+                        <h:link class="nav-link" outcome="listagem_produtos">Estoque</h:link>           
+                    </li>                                        
+                </ul>               
+            </div>
+        </nav>
+        <br/>                
+    </h:body>
+</html>

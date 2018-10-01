@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Controle estoque - Unidade medida</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
+    </h:head>
+    <h:body>
+        <ui:insert name="header">
+            <ui:include src="template/menu.xhtml"/>
+        </ui:insert>
+        <h:form id="form">
+            <table id="tabelaUn" class="table table-striped" style="margin-top: 33px;">
+                <thead>
+                    <tr>
+                        <th scope="col">Excluir</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Descrição</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:if test="#{unidadeMedidaMB.all.size() == 0}">
+                        <tr>
+                            <td colspan="3">Sem informação</td>
+                        </tr>
+                    </c:if>
+                    <ui:repeat var="un" value="#{unidadeMedidaMB.all}">
+                        <tr>
+                            <td>
+                                <h:commandLink action="#{unidadeMedidaMB.remove()}">                                    
+                                    <h:graphicImage value="/resources/img/trash.png"/>
+                                    <f:setPropertyActionListener value="#{un}" target="#{unidadeMedidaMB.unidadeMedida}"/>                                    
+                                </h:commandLink>
+                            </td>
+                            <td>
+                                <h:commandLink action="#{unidadeMedidaMB.buscarPorId()}">                                    
+                                    <f:setPropertyActionListener value="#{un}" target="#{unidadeMedidaMB.unidadeMedida}"/>
+                                    <f:passThroughAttribute name="data-toggle" value="modal" />
+                                    <f:passThroughAttribute name="data-target" value="#cadastroUN" />
+                                    <f:passThroughAttribute name="data-backdrop" value="static" />
+                                    <h:graphicImage value="/resources/img/edit.png"/>                                                                                                        
+                                    <f:ajax render="form formModal" event="action"/>
+                                </h:commandLink>
+                            </td>
+                            <td>#{un.descricao}</td>
+                        </tr>
+                    </ui:repeat>   
+                </tbody>
+            </table>
+            <h:commandLink id="lnkNovo" value="Nova unidade de medida" action="#{unidadeMedidaMB.novo()}" onclick="$('#cadastroUN').modal('show');" immediate="true">
+                <f:ajax event="action" render="formModal"/>
+            </h:commandLink>
+        </h:form>
+        <div class="modal fade" id="cadastroUN" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Unidade de medida                            
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"/>                        
+                    </div>
+                    <h:form id="formModal">
+                        <div class="modal-body">                        
+                            <div class="form-group">
+                                <label for="txtDescricao">Descrição</label>
+                                <h:inputText id="txtDescricao" value="#{unidadeMedidaMB.unidadeMedida.descricao}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <h:commandButton id="btnSalvar" class="btn btn-primary" value="Salvar" action="#{unidadeMedidaMB.salvar()}">
+                                <f:passThroughAttribute name="data-backdrop" value="static" />
+                            </h:commandButton>
+                            <div id="divMensagem">
+                                <c:if test="#{not empty unidadeMedidaMB.mensagem}">                                
+                                    <div class="alert alert-danger" role="alert" style="width: 96%;margin:2%">
+                                        #{unidadeMedidaMB.mensagem}
+                                    </div>
+                                </c:if>
+                            </div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>        
+    </h:body>
+</html>
